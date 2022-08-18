@@ -3,19 +3,22 @@ package com.bl;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 class MyConsumer<T> implements Consumer<T> {
 	@Override
 	public void accept(T t) {
-		System.out.println("Mth3 : "+t);
+		System.out.println("Mth3 : " + t);
 	}
 }
 
 public class CollectionWithLambda {
-	
+
 	public static void main(String[] args) {
 
 		doListDemo();
+		doIntListDemo();
 
 	}
 
@@ -45,11 +48,32 @@ public class CollectionWithLambda {
 			System.out.println("Mth2 : " + str);
 		};
 		list.forEach(consumer);
-		
+
 		System.out.println("--------MyConsumer Obj-----------------");
 		MyConsumer<String> myConsumer = new MyConsumer<>();
 		list.forEach(myConsumer);
+
+	}
+
+	private static void doIntListDemo() {
+
+		System.out.println("____________In doIntListDemo______________");
+
+		List<Integer> intList = new LinkedList<>();
+
+		for (int i = 0; i < 5; i++) {
+			int random = (int) (Math.random() * 100);
+			intList.add(random);
+		}
+
+		Function<Integer, Double> doubleValue = Integer::doubleValue;
+
+		Predicate<Integer> predict = n -> n % 2 == 0;
 		
+		intList.forEach((n) -> {
+			if (predict.test(n))
+				System.out.println(doubleValue.apply(n));
+		});
 	}
 
 }
